@@ -1,18 +1,28 @@
-import ContactForm from 'components/ContactForm';
-import Filter from 'components/Filter';
-import ContactList from 'components/ContactList';
+import { Route, Routes } from 'react-router-dom';
+// import ContactForm from 'components/ContactForm';
+// import Filter from 'components/Filter';
+// import ContactList from 'components/ContactList';
 
-import { Title, SectionName, Container } from './App.Styled';
+// import { Title, SectionName, Container } from './App.Styled';
+import SharedLayout from 'components/SharedLayout';
+import Home from 'pages/Home';
+import RegisterForm from 'pages/Registration/RegisterForm';
+import LoginForm from 'pages/LogIn/LoginForm';
+import ContactList from 'pages/Contacts/ContactsList.js/ContactList';
 
 const App = () => {
   return (
-    <Container>
-      <Title>Phonebook</Title>
-      <ContactForm />
-      <SectionName>Contacts</SectionName>
-      <Filter />
-      <ContactList />
-    </Container>
+    <div>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<Home />} />
+          <Route path="contacts" element={<ContactList />} />
+          <Route path="register" element={<RegisterForm />} />
+          <Route path="login" element={<LoginForm />} />
+        </Route>
+        <Route path="*" element={<Home />} />
+      </Routes>
+    </div>
   );
 };
 

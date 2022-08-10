@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {
   useGetContactsQuery,
   useAddContactMutation,
-} from '../../redux/contactSlice';
+} from '../../redux/usersSlice';
 
 import { nanoid } from 'nanoid';
 
