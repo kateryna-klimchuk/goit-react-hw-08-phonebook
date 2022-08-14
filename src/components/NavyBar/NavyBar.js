@@ -12,15 +12,21 @@ const NavyBar = () => {
     <Navbar collapseOnSelect className={style.navBar}>
       <Container>
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Navbar.Brand>Phonebook</Navbar.Brand>
-          <Nav.Link as="div">
-            <NavLink to="/">Home</NavLink>
-          </Nav.Link>
+          <Navbar.Brand>
+            <Nav.Link as="div">
+              <NavLink to="/" className={style.navLink}>
+                PhoneBook
+              </NavLink>
+            </Nav.Link>
+          </Navbar.Brand>
+
           <Nav as="ul" className={style.nav}>
             {isUserLoggedIn && (
               <div className={style.wrapper}>
                 <Nav.Link as="li">
-                  <NavLink to="contacts">Contacts</NavLink>
+                  <NavLink to="contacts" className={style.navLink}>
+                    Contacts
+                  </NavLink>
                 </Nav.Link>
                 <Nav.Link as="li">
                   <UserMenu />
@@ -30,10 +36,14 @@ const NavyBar = () => {
             {!isUserLoggedIn && (
               <div className={style.wrapper}>
                 <Nav.Link as="li">
-                  <NavLink to="register">Registration</NavLink>
+                  <NavLink to="register" className={style.navLink}>
+                    Registration
+                  </NavLink>
                 </Nav.Link>
                 <Nav.Link as="li">
-                  <NavLink to="login">Log in</NavLink>
+                  <NavLink to="login" className={style.navLink}>
+                    Log in
+                  </NavLink>
                 </Nav.Link>
               </div>
             )}

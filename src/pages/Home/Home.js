@@ -2,7 +2,7 @@ import { getIsLoggedIn, getUserName } from '../../redux/auth/authSelector';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Container } from 'react-bootstrap';
+import { Container, Badge } from 'react-bootstrap';
 import style from './Home.module.css';
 
 const Home = () => {
@@ -11,17 +11,37 @@ const Home = () => {
 
   return isUserLoggedIn ? (
     <Container className={style.homeContainer}>
-      <h1>Welcome to our application, {userName}!!!</h1>
-      <p>To create your contact, click</p>
-      <Link to="contacts">here</Link>
+      <h1 className={style.homeTitle}>Welcome to PhoneBook, {userName}!</h1>
+      <h2 className={style.homeText}>
+        To create your contact, click{' '}
+        <Badge bg="secondary">
+          {' '}
+          <Link to="contacts" className={style.homeLink}>
+            here
+          </Link>
+        </Badge>
+      </h2>
     </Container>
   ) : (
     <Container className={style.homeContainer}>
-      <h1>Welcome to our application!!!</h1>
-      <p>It's your first time?</p>
-      <Link to="register">Sign Up</Link>
-      <p>Already have account?</p>
-      <Link to="login">Sign in</Link>
+      <h1 className={style.homeTitle}>Welcome to PhoneBook!</h1>
+      <h2 className={style.homeText}>
+        It's your first time?{' '}
+        <Badge bg="secondary">
+          <Link to="register" className={style.homeLink}>
+            Sign Up
+          </Link>
+        </Badge>
+      </h2>
+
+      <h2 className={style.homeText}>
+        Already have account?{' '}
+        <Badge bg="secondary">
+          <Link to="login" className={style.homeLink}>
+            Sign in
+          </Link>
+        </Badge>
+      </h2>
     </Container>
   );
 };

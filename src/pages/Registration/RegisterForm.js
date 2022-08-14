@@ -38,7 +38,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <Container className={style.container}>
+    <Container className={style.registerContainer}>
       <Form onSubmit={handleSubmitChange} className={style.form}>
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
