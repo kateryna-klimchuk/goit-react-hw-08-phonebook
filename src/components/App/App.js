@@ -14,7 +14,7 @@ import Home from 'pages/Home';
 import RegisterForm from 'pages/Registration/RegisterForm';
 import LoginForm from 'pages/LogIn/LoginForm';
 import Contacts from 'pages/Contacts/Contacts/index';
-import Modal from 'components/Modal';
+// import Modal from 'components/Modal';
 import PublicRoute from '../PublicRoute';
 import PrivateRoute from '../PrivateRoute';
 
@@ -39,22 +39,22 @@ const App = () => {
             }
           />
           <Route
-            path="contacts/*"
+            path="contacts"
             element={
               <PrivateRoute>
                 <Contacts />
               </PrivateRoute>
             }
-          >
-            <Route
+          />
+          {/* <Route
               path="contacts/{contactId}"
               element={
                 <PrivateRoute>
                   <Modal />
                 </PrivateRoute>
               }
-            />
-          </Route>
+            /> */}
+          {/* </Route> */}
           <Route
             path="register"
             element={

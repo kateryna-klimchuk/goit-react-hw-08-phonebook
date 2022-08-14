@@ -4,13 +4,14 @@ import {
   useGetContactQuery,
   useDeleteContactMutation,
 } from '../../../redux/contacts/contactsApi.js';
-import { useNavigate } from 'react-router-dom';
-
+import Modal from 'components/Modal';
+import { useState } from 'react';
 import { getFilter } from 'redux/contacts/contactsSelector';
 import style from './ContactList.module.css';
 
 const ContactList = () => {
-  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [modalId, setModalId] = useState('');
 
   const searchFilter = useSelector(getFilter);
   const { data } = useGetContactQuery();
@@ -31,6 +32,11 @@ const ContactList = () => {
     deleteContact(id);
   };
 
+  const handleEditClick = id => {
+    setShowModal(true);
+    setModalId(id);
+  };
+
   return (
     <ListGroup className={style.contactList}>
       {visibleContacts &&
@@ -43,7 +49,7 @@ const ContactList = () => {
                 <div className={style.btnWrapper}>
                   <Button
                     type="button"
-                    onClick={() => navigate(`/contacts/${id}`)}
+                    onClick={() => handleEditClick(id)}
                     variant="outline-light"
                   >
                     Edit
@@ -56,6 +62,9 @@ const ContactList = () => {
                     x
                   </Button>
                 </div>
+                {showModal && modalId === id && (
+                  <Modal id={modalId} name={name} number={number} />
+                )}
               </div>
             </ListGroup.Item>
           );

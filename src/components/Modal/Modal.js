@@ -1,24 +1,36 @@
+import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   useEditContactMutation,
-  useGetMaterialByIdQuery,
+  useGetContactQuery,
 } from '../../redux/contacts/contactsApi.js';
 
 import style from './Modal.module.css';
-const Modal = () => {
-  const { contactId } = useParams();
-  console.log(contactId);
-  const { data: contact } = useGetMaterialByIdQuery(contactId);
-  console.log(contact);
+
+const Modal = ({ id, name, number }) => {
+  const [editName, setEditName] = useState('');
+  const [editNumber, setEditNumber] = useState('');
+  const { data: contacts } = useGetContactQuery();
+  const contact = contacts.find(item => item.id === id);
   const [editContact] = useEditContactMutation();
 
   const navigate = useNavigate();
   const closeModal = () => navigate('/contacts');
 
-  const handleEditContact = async fields => {
+  const handleInputChange = e => {
+    const { name, value } = e.currentTarget;
+    if (name === 'name') {
+      setEditName(value);
+    }
+    if (name === 'number') {
+      setEditNumber(value);
+    }
+  };
+  const handleEditContact = async e => {
+    e.preventDefault();
     try {
-      await editContact({ id: contactId, ...fields });
+      await editContact({ editName, editNumber });
       closeModal();
     } catch (error) {
       console.log(error.message);
@@ -26,22 +38,30 @@ const Modal = () => {
   };
 
   return (
-    <div className={style.overlay}>
-      <div className={style.modal}>
-        {contact && (
-          <Form onSubmit={handleEditContact}>
-            <Form.Group>
-              <Form.Label>Edit contact</Form.Label>
-              <Form.Control name="name" value={contact.name} />
-              <Form.Control name="number" value={contact.number} />
-              <Button variant="light" type="submit">
-                Save changes
-              </Button>
-            </Form.Group>
-          </Form>
-        )}
-      </div>
+    // <div className={style.overlay}>
+    <div className={style.modal}>
+      {contact && (
+        <Form onSubmit={handleEditContact}>
+          <Form.Group>
+            <Form.Label>Edit contact</Form.Label>
+            <Form.Control
+              name="name"
+              value={editName}
+              onChange={handleInputChange}
+            />
+            <Form.Control
+              name="number"
+              value={editNumber}
+              onChange={handleInputChange}
+            />
+            <Button variant="light" type="submit">
+              Save changes
+            </Button>
+          </Form.Group>
+        </Form>
+      )}
     </div>
+    // </div>
   );
 };
 
