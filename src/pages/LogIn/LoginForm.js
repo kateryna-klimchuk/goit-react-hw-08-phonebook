@@ -1,15 +1,16 @@
-// import { useGetUserQuery, useLoginUserMutation } from '../../redux/usersSlice';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Form, Button } from 'react-bootstrap';
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/auth/authOperations';
 import style from './LoginForm.module.css';
 
+import Loader from 'components/Loader';
+
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -25,6 +26,8 @@ const LoginForm = () => {
   };
 
   const handleSubmitChange = async event => {
+    setIsLoading(true);
+
     event.preventDefault();
     dispatch(logIn({ email, password }));
     reset();
@@ -33,10 +36,13 @@ const LoginForm = () => {
   const reset = () => {
     setEmail('');
     setPassword('');
+    setIsLoading(false);
   };
 
   return (
     <div className={style.loginContainer}>
+      {isLoading && <Loader />}
+
       <Form onSubmit={handleSubmitChange} className={style.form}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>

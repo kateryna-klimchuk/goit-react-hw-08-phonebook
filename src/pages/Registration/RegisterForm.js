@@ -4,11 +4,13 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/authOperations';
 import style from './RegisterForm.module.css';
+import Loader from 'components/Loader';
 
 const RegisterForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -26,6 +28,8 @@ const RegisterForm = () => {
   };
 
   const handleSubmitChange = async event => {
+    setIsLoading(true);
+
     event.preventDefault();
     dispatch(register({ name, email, password }));
     reset();
@@ -35,10 +39,13 @@ const RegisterForm = () => {
     setName('');
     setEmail('');
     setPassword('');
+    setIsLoading(false);
   };
 
   return (
     <Container className={style.registerContainer}>
+      {isLoading && <Loader />}
+
       <Form onSubmit={handleSubmitChange} className={style.form}>
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
