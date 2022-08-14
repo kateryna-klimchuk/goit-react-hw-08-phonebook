@@ -4,16 +4,18 @@ import {
   useGetContactQuery,
   useDeleteContactMutation,
 } from '../../../redux/contacts/contactsApi.js';
-// import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { getFilter } from 'redux/contacts/contactsSelector';
 import style from './ContactList.module.css';
 
 const ContactList = () => {
+  const navigate = useNavigate();
+
   const searchFilter = useSelector(getFilter);
   const { data } = useGetContactQuery();
   const [deleteContact] = useDeleteContactMutation();
-  // const [editContact] = useEditContactMutation();
+
   const getVisibleContacts = () => {
     if (searchFilter !== '') {
       return data.filter(({ name }) =>
@@ -39,6 +41,13 @@ const ContactList = () => {
                 <p>{name}</p>
                 <p>{number}</p>
                 <div className={style.btnWrapper}>
+                  <Button
+                    type="button"
+                    onClick={() => navigate(`/contacts/${id}`)}
+                    variant="outline-light"
+                  >
+                    Edit
+                  </Button>
                   <Button
                     type="button"
                     onClick={() => handleDeleteClick(id)}
