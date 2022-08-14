@@ -1,11 +1,16 @@
+import { Form, Button, Container } from 'react-bootstrap';
+
 import { useState } from 'react';
-import { useAddUserMutation } from 'redux/usersSlice';
+import { useDispatch } from 'react-redux';
+import { register } from '../../redux/auth/authOperations';
+import style from './RegisterForm.module.css';
 
 const RegisterForm = () => {
-  const [addUser] = useAddUserMutation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleInputChange = event => {
     const { name, value } = event.currentTarget;
@@ -22,11 +27,7 @@ const RegisterForm = () => {
 
   const handleSubmitChange = async event => {
     event.preventDefault();
-    try {
-      await addUser({ name, email, password });
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(register({ name, email, password }));
     reset();
   };
 
@@ -37,48 +38,48 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmitChange}>
-      <label>
-        Name
-        <input
-          type="text"
-          name="name"
-          value={name}
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-          onChange={handleInputChange}
-          autoComplete="true"
-        />
-      </label>
-      <label>
-        Email
-        <input
-          type="email"
-          name="email"
-          value={email}
-          pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
-          title="Email must be digits—0 to 9, lowercase Latin letters—a to z"
-          required
-          onChange={handleInputChange}
-          autoComplete="true"
-        />
-      </label>
-      <label>
-        Password
-        <input
-          type="password"
-          name="password"
-          value={password}
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-          title="Must contain at least one  number and one uppercase and lowercase letter, and at least 6 or more characters"
-          required
-          onChange={handleInputChange}
-          autoComplete="false"
-        />
-      </label>
-      <button type="submit">Sign Up</button>
-    </form>
+    <Container className={style.container}>
+      <Form onSubmit={handleSubmitChange} className={style.form}>
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="text"
+            name="name"
+            value={name}
+            placeholder="Enter your name"
+            onChange={handleInputChange}
+            autoComplete="false"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            name="email"
+            value={email}
+            onChange={handleInputChange}
+            autoComplete="false"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            value={password}
+            onChange={handleInputChange}
+            autoComplete="false"
+          />
+        </Form.Group>
+        <div className="d-grid gap-2">
+          <Button variant="outline-light" type="submit">
+            Sign Up
+          </Button>
+        </div>
+      </Form>
+    </Container>
   );
 };
 export default RegisterForm;

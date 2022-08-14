@@ -1,0 +1,10 @@
+.contactPage {
+  display: flex;
+  margin-top: 40px;
+
+  justify-content: space-around;
+}
+
+.contacts {
+  width: 400px;
+}

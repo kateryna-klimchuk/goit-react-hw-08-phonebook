@@ -1,28 +1,70 @@
 import { Route, Routes } from 'react-router-dom';
-// import ContactForm from 'components/ContactForm';
-// import Filter from 'components/Filter';
-// import ContactList from 'components/ContactList';
+import {
+  useEffect,
+  // lazy, Suspense
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser } from '../../redux/auth/authOperations';
+import { getIsGettingCurrentUser } from '../../redux/auth/authSelector';
 
-// import { Title, SectionName, Container } from './App.Styled';
+// import { Container } from 'react-bootstrap';
+// import style from './App.Styled.css';
 import SharedLayout from 'components/SharedLayout';
 import Home from 'pages/Home';
 import RegisterForm from 'pages/Registration/RegisterForm';
 import LoginForm from 'pages/LogIn/LoginForm';
-import ContactList from 'pages/Contacts/ContactsList.js/ContactList';
+import Contacts from 'pages/Contacts/Contacts/index';
+import PublicRoute from '../PublicRoute';
+import PrivateRoute from '../PrivateRoute';
 
 const App = () => {
+  const refreshing = useSelector(getIsGettingCurrentUser);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
   return (
-    <div>
+    !refreshing && (
       <Routes>
         <Route path="/" element={<SharedLayout />}>
-          <Route index element={<Home />} />
-          <Route path="contacts" element={<ContactList />} />
-          <Route path="register" element={<RegisterForm />} />
-          <Route path="login" element={<LoginForm />} />
+          <Route
+            index
+            element={
+              <PublicRoute>
+                <Home />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="contacts"
+            element={
+              <PrivateRoute>
+                <Contacts />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <PublicRoute restricted>
+                <RegisterForm />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <PublicRoute restricted>
+                <LoginForm />
+              </PublicRoute>
+            }
+          />
         </Route>
         <Route path="*" element={<Home />} />
       </Routes>
-    </div>
+    )
   );
 };
 

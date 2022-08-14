@@ -1,23 +1,20 @@
 import Notiflix from 'notiflix';
+import { Form, Button } from 'react-bootstrap';
+
 import { useState } from 'react';
 import {
-  useGetContactsQuery,
+  useGetContactQuery,
   useAddContactMutation,
-} from '../../redux/usersSlice';
+} from '../../redux/contacts/contactsApi.js';
 
-import { nanoid } from 'nanoid';
-
-import { Form, Input, Label, FormButton } from './ContactForm.Styled';
+import style from './ContactForm.module.css';
 
 const ContactForm = () => {
-  const { data } = useGetContactsQuery();
+  const { data } = useGetContactQuery();
   const [addContact] = useAddContactMutation();
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  const nameInputId = nanoid();
-  const numberInputId = nanoid();
 
   const handleInputChange = event => {
     const { name, value } = event.currentTarget;
@@ -47,32 +44,39 @@ const ContactForm = () => {
     setNumber('');
   };
   return (
-    <Form onSubmit={handleAddContact}>
-      <Label htmlFor={nameInputId}>Name</Label>
-
-      <Input
-        type="text"
-        name="name"
-        value={name}
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-        required
-        onChange={handleInputChange}
-        id={nameInputId}
-      />
-      <Label htmlFor={numberInputId}>Number</Label>
-      <Input
-        type="tel"
-        name="number"
-        value={number}
-        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-        title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-        required
-        onChange={handleInputChange}
-        id={numberInputId}
-      />
-      <FormButton type="submit">Add Contact</FormButton>
-    </Form>
+    <div>
+      <Form onSubmit={handleAddContact} className={style.addContactForm}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="text"
+            name="name"
+            value={name}
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            onChange={handleInputChange}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="tel"
+            name="number"
+            value={number}
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            onChange={handleInputChange}
+          />
+        </Form.Group>
+        <div className="d-grid gap-2">
+          <Button variant="outline-light" type="submit">
+            Add Contact
+          </Button>
+        </div>
+      </Form>
+    </div>
   );
 };
 

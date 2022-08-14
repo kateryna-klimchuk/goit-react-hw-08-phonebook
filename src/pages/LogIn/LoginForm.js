@@ -1,13 +1,17 @@
-import { useGetUserQuery, useLoginUserMutation } from '../../redux/usersSlice';
+// import { useGetUserQuery, useLoginUserMutation } from '../../redux/usersSlice';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../redux/auth/authOperations';
+import style from './LoginForm.module.css';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { data } = useGetUserQuery();
-  console.log(data);
-  const [loginUser] = useLoginUserMutation();
+  const dispatch = useDispatch();
 
   const handleInputChange = event => {
     const { name, value } = event.currentTarget;
@@ -22,11 +26,7 @@ const LoginForm = () => {
 
   const handleSubmitChange = async event => {
     event.preventDefault();
-    try {
-      await loginUser({ email, password });
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(logIn({ email, password }));
     reset();
   };
 
@@ -36,35 +36,35 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmitChange}>
-      <label>
-        Email
-        <input
+    <Form onSubmit={handleSubmitChange} className={style.form}>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email</Form.Label>
+        <Form.Control
           type="email"
+          placeholder="Enter email"
           name="email"
           value={email}
-          pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
-          title="Email must be digits—0 to 9, lowercase Latin letters—a to z"
-          required
-          onChange={handleInputChange}
-          autoComplete="true"
-        />
-      </label>
-      <label>
-        Password
-        <input
-          type="password"
-          name="password"
-          value={password}
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-          title="Must contain at least one  number and one uppercase and lowercase letter, and at least 6 or more characters"
-          required
           onChange={handleInputChange}
           autoComplete="false"
         />
-      </label>
-      <button type="submit">Sign Up</button>
-    </form>
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type="password"
+          name="password"
+          value={password}
+          placeholder="Enter password"
+          onChange={handleInputChange}
+          autoComplete="false"
+        />
+      </Form.Group>
+      <div className="d-grid gap-2">
+        <Button variant="outline-light" type="submit">
+          Sign Up
+        </Button>
+      </div>
+    </Form>
   );
 };
 export default LoginForm;

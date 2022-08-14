@@ -1,15 +1,13 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import NavyBar from 'components/NavyBar';
+// import { Navbar, Nav, Row, Col, Container } from 'react-bootstrap';
+import style from './SharedLayout.module.css';
 
 const SharedLayout = () => {
   return (
-    <div>
+    <div className={style.mainContainer}>
       <header>
-        <nav>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="contacts">Contacts</NavLink>
-          <NavLink to="register">Registration</NavLink>
-          <NavLink to="login">Log In</NavLink>
-        </nav>
+        <NavyBar />
       </header>
       <Outlet />
     </div>
