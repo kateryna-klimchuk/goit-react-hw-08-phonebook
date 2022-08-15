@@ -1,5 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
-import { useEffect, lazy } from 'react';
+import {
+  useEffect,
+  // lazy
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../../redux/auth/authOperations';
 import { getIsGettingCurrentUser } from '../../redux/auth/authSelector';
