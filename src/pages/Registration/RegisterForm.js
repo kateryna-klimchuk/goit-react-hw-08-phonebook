@@ -1,6 +1,6 @@
 import { Form, Button, Container } from 'react-bootstrap';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/authOperations';
 import style from './RegisterForm.module.css';
@@ -44,48 +44,52 @@ const RegisterForm = () => {
 
   return (
     <Container className={style.registerContainer}>
-      {isLoading && <Loader />}
-
-      <Form onSubmit={handleSubmitChange} className={style.form}>
-        <Form.Group className="mb-3" controlId="formBasicName">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            value={name}
-            placeholder="Enter your name"
-            onChange={handleInputChange}
-            autoComplete="false"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            name="email"
-            value={email}
-            onChange={handleInputChange}
-            autoComplete="false"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={handleInputChange}
-            autoComplete="false"
-          />
-        </Form.Group>
-        <div className="d-grid gap-2">
-          <Button variant="outline-light" type="submit">
-            Sign Up
-          </Button>
-        </div>
-      </Form>
+      <Suspense fallback={<Loader />}>
+        <Form onSubmit={handleSubmitChange} className={style.form}>
+          <Form.Group className="mb-3" controlId="formBasicName">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={name}
+              placeholder="Enter your name"
+              onChange={handleInputChange}
+              autoComplete="false"
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              value={email}
+              onChange={handleInputChange}
+              autoComplete="false"
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={handleInputChange}
+              autoComplete="false"
+              required
+            />
+          </Form.Group>
+          <div className="d-grid gap-2">
+            <Button variant="outline-light" type="submit">
+              Sign Up
+            </Button>
+          </div>
+        </Form>
+        {isLoading && <Loader />}
+      </Suspense>
     </Container>
   );
 };

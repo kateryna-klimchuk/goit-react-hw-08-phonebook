@@ -1,5 +1,5 @@
 import Notiflix from 'notiflix';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, FloatingLabel } from 'react-bootstrap';
 
 import { useState } from 'react';
 import {
@@ -46,29 +46,31 @@ const ContactForm = () => {
   return (
     <div>
       <Form onSubmit={handleAddContact} className={style.addContactForm}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            value={name}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            onChange={handleInputChange}
-          />
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <FloatingLabel controlId="formBasicName" label="Type Name">
+            <Form.Control
+              type="text"
+              name="name"
+              value={name}
+              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+              required
+              onChange={handleInputChange}
+            />
+          </FloatingLabel>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="tel"
-            name="number"
-            value={number}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-            onChange={handleInputChange}
-          />
+        <Form.Group className="mb-3" controlId="formBasicNumber">
+          <FloatingLabel controlId="formBasicNumber" label="Type Number">
+            <Form.Control
+              type="tel"
+              name="number"
+              value={number}
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+              required
+              onChange={handleInputChange}
+            />
+          </FloatingLabel>
         </Form.Group>
         <div className="d-grid gap-2">
           <Button variant="outline-light" type="submit">

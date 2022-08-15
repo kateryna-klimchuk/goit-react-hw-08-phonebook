@@ -47,6 +47,7 @@ const LoginForm = () => {
               value={email}
               onChange={handleInputChange}
               autoComplete="false"
+              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -58,6 +59,7 @@ const LoginForm = () => {
               placeholder="Enter password"
               onChange={handleInputChange}
               autoComplete="false"
+              required
             />
           </Form.Group>
           <div className="d-grid gap-2">

@@ -1,21 +1,24 @@
+import { Suspense } from 'react';
+
 import { useSelector } from 'react-redux';
 import { ListGroup, Button } from 'react-bootstrap';
 import {
   useGetContactQuery,
   useDeleteContactMutation,
-} from '../../../redux/contacts/contactsApi.js';
-import Modal from 'components/Modal';
+} from 'redux/contacts/contactsApi.js';
+import EditForm from 'components/EditForm/EditForm.js';
 import { useState } from 'react';
+import { AiFillEdit, AiFillDelete, AiOutlineUser } from 'react-icons/ai';
 import { getFilter } from 'redux/contacts/contactsSelector';
 import style from './ContactList.module.css';
+import Loader from 'components/Loader';
 
 const ContactList = () => {
-  const [showModal, setShowModal] = useState(false);
   const [modalId, setModalId] = useState('');
-
+  const [show, setShow] = useState(false);
   const searchFilter = useSelector(getFilter);
   const { data } = useGetContactQuery();
-  const [deleteContact] = useDeleteContactMutation();
+  const [deleteContact, { isLoading }] = useDeleteContactMutation();
 
   const getVisibleContacts = () => {
     if (searchFilter !== '') {
@@ -33,17 +36,18 @@ const ContactList = () => {
   };
 
   const handleEditClick = id => {
-    setShowModal(true);
     setModalId(id);
+    setShow(true);
   };
 
   return (
-    <ListGroup className={style.contactList}>
-      {visibleContacts &&
-        visibleContacts.map(({ id, name, number }) => {
-          return (
-            <ListGroup.Item key={id} className={style.contactItem}>
-              <div className={style.contactItem}>
+    <Suspense fallback={<Loader />}>
+      <ListGroup className={style.contactList}>
+        {visibleContacts &&
+          visibleContacts.map(({ id, name, number }) => {
+            return (
+              <ListGroup.Item key={id} className={style.contactItem}>
+                <AiOutlineUser />
                 <p>{name}</p>
                 <p>{number}</p>
                 <div className={style.btnWrapper}>
@@ -52,24 +56,23 @@ const ContactList = () => {
                     onClick={() => handleEditClick(id)}
                     variant="outline-light"
                   >
-                    Edit
+                    <AiFillEdit />
                   </Button>
                   <Button
                     type="button"
                     onClick={() => handleDeleteClick(id)}
                     variant="outline-light"
                   >
-                    x
+                    <AiFillDelete />
+                    {isLoading && <Loader />}
                   </Button>
                 </div>
-                {showModal && modalId === id && (
-                  <Modal id={modalId} modalName={name} modalNumber={number} />
-                )}
-              </div>
-            </ListGroup.Item>
-          );
-        })}
-    </ListGroup>
+              </ListGroup.Item>
+            );
+          })}
+      </ListGroup>
+      {show && <EditForm id={modalId} />}
+    </Suspense>
   );
 };
 
