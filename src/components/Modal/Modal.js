@@ -8,9 +8,9 @@ import {
 
 import style from './Modal.module.css';
 
-const Modal = ({ id, name, number }) => {
-  const [editName, setEditName] = useState('');
-  const [editNumber, setEditNumber] = useState('');
+const Modal = ({ id, modalName, modalNumber }) => {
+  const [name, setName] = useState(modalName);
+  const [number, setNumber] = useState(modalNumber);
   const { data: contacts } = useGetContactQuery();
   const contact = contacts.find(item => item.id === id);
   const [editContact] = useEditContactMutation();
@@ -21,16 +21,16 @@ const Modal = ({ id, name, number }) => {
   const handleInputChange = e => {
     const { name, value } = e.currentTarget;
     if (name === 'name') {
-      setEditName(value);
+      setName(value);
     }
     if (name === 'number') {
-      setEditNumber(value);
+      setNumber(value);
     }
   };
   const handleEditContact = async e => {
     e.preventDefault();
     try {
-      await editContact({ editName, editNumber });
+      await editContact({ name, number });
       closeModal();
     } catch (error) {
       console.log(error.message);
@@ -46,12 +46,12 @@ const Modal = ({ id, name, number }) => {
             <Form.Label>Edit contact</Form.Label>
             <Form.Control
               name="name"
-              value={editName}
+              value={name}
               onChange={handleInputChange}
             />
             <Form.Control
               name="number"
-              value={editNumber}
+              value={number}
               onChange={handleInputChange}
             />
             <Button variant="light" type="submit">

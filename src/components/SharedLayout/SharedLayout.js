@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom';
+import { Suspense } from 'react';
 import NavyBar from 'components/NavyBar';
-// import { Navbar, Nav, Row, Col, Container } from 'react-bootstrap';
 import style from './SharedLayout.module.css';
+import Loader from 'components/Loader';
 
 const SharedLayout = () => {
   return (
@@ -9,7 +10,9 @@ const SharedLayout = () => {
       <header>
         <NavyBar />
       </header>
-      <Outlet />
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };

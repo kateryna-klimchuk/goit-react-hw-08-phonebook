@@ -63,7 +63,7 @@ const ContactList = () => {
                   </Button>
                 </div>
                 {showModal && modalId === id && (
-                  <Modal id={modalId} name={name} number={number} />
+                  <Modal id={modalId} modalName={name} modalNumber={number} />
                 )}
               </div>
             </ListGroup.Item>

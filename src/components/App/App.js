@@ -1,22 +1,25 @@
 import { Route, Routes } from 'react-router-dom';
-import {
-  useEffect,
-  // lazy, Suspense
-} from 'react';
+import { useEffect, lazy } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../../redux/auth/authOperations';
 import { getIsGettingCurrentUser } from '../../redux/auth/authSelector';
 
-// import { Container } from 'react-bootstrap';
-// import style from './App.Styled.css';
+import PublicRoute from '../PublicRoute';
+import PrivateRoute from '../PrivateRoute';
+
+// const PrivateRoute = lazy(() => import('../PrivateRoute'));
+// const PublicRoute = lazy(() => import('../PublicRoute'));
+// const SharedLayout = lazy(() => import('components/SharedLayout'));
+// const Home = lazy(() => import('pages/Home'));
+// const RegisterForm = lazy(() => import('pages/Registration/RegisterForm'));
+// const LoginForm = lazy(() => import('pages/LogIn/LoginForm'));
+// const Contacts = lazy(() => import('pages/Contacts/Contacts/index'));
+
 import SharedLayout from 'components/SharedLayout';
 import Home from 'pages/Home';
 import RegisterForm from 'pages/Registration/RegisterForm';
 import LoginForm from 'pages/LogIn/LoginForm';
 import Contacts from 'pages/Contacts/Contacts/index';
-// import Modal from 'components/Modal';
-import PublicRoute from '../PublicRoute';
-import PrivateRoute from '../PrivateRoute';
 
 const App = () => {
   const refreshing = useSelector(getIsGettingCurrentUser);
